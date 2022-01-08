@@ -11,7 +11,7 @@ import pathlib
 import sys
 import textwrap
 import types
-from typing import Optional
+from typing import Iterable, Optional
 
 from etils import epy
 
@@ -105,6 +105,10 @@ class BookmarkFolder(_BookmarkItem):
         for b in self.children:
             name2children[b.name].append(b)
         return name2children
+
+    def __iter__(self) -> Iterable[_BookmarkItem]:
+        """Iterate over all children."""
+        return iter(self.children)
 
     def __getitem__(self, value: str) -> _BookmarkItem:
         children = self._name2children[value]

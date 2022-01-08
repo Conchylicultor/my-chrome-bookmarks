@@ -22,3 +22,6 @@ def test_bookmark_bar():
     folder2 = bookmarks[folder.name]  # Access by index
     assert folder == folder2
     assert repr(folder) == repr(folder2)
+
+    for b in bookmarks:
+        pass

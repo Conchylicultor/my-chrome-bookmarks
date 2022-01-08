@@ -1,5 +1,5 @@
 [project]
-name = "my_chrome_bookmarks"
+name = "my-chrome-bookmarks"
 description = "Utils to load local chrome bookmarks."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -14,7 +14,8 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 keywords = [
-    "chrome", 
+    "google",
+    "chrome",
     "bookmarks",
 ]
 dependencies = [
