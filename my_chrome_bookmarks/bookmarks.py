@@ -16,6 +16,12 @@ from typing import Iterable, Optional
 from etils import epy
 
 
+def timestamp2date(timestamp: str) -> datetime.datetime:
+    epoch_start = datetime.datetime(1601, 1, 1)
+    delta = datetime.timedelta(microseconds=int(timestamp))
+    return (epoch_start + delta).replace(tzinfo=datetime.timezone.utc).astimezone()
+
+
 @dataclasses.dataclass(frozen=True)
 class BookmarkRoots:
     bookmark_bar: BookmarkFolder
@@ -46,11 +52,9 @@ class _BookmarkItem:
     def from_json(cls, parent, value) -> _BookmarkItem:
         value = types.SimpleNamespace(**value)
 
-        date_added = int(value.date_added[:-7])
-        date_added = datetime.datetime.fromtimestamp(date_added)
         common_kwargs = dict(
             parent=parent,
-            date_added=date_added,
+            date_added=timestamp2date(value.date_added),
             guid=value.guid,
             id=int(value.id),
             name=value.name,
