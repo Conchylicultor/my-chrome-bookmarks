@@ -1,6 +1,6 @@
 # my-chrome-bookmarks
 
-[![PyPI version](https://badge.fury.io/py/my-chrome-bookmarks.svg)](https://badge.fury.io/py/my-chrome-bookmarks)
+[![PyPI version](https://badge.fury.io/py/my_chrome_bookmarks.svg)](https://badge.fury.io/py/my_chrome_bookmarks)
 
 Python extension to read local Chrome bookmarks.
 

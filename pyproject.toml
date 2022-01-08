@@ -1,5 +1,5 @@
 [project]
-name = "my-chrome-bookmarks"
+name = "my_chrome_bookmarks"
 description = "Utils to load local chrome bookmarks."
 readme = "README.md"
 requires-python = ">=3.8"
