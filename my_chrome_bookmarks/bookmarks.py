@@ -90,6 +90,18 @@ class BookmarkFolder(_BookmarkItem):
         return [v for v in self.children if isinstance(v, BookmarkUrl)]
 
     @functools.cached_property
+    def flat_urls(self) -> list[BookmarkUrl]:
+        all_urls = []
+        for v in self.children:
+            if isinstance(v, BookmarkUrl):
+                all_urls.append(v)
+            elif isinstance(v, BookmarkFolder):
+                all_urls.extend(v.flat_urls)
+            else:
+                raise TypeError(f"Unexpected {v}")
+        return all_urls
+
+    @functools.cached_property
     def num_urls(self) -> int:
         """Returns the total number of urls contained in all sub-folders."""
         return sum(f.num_urls for f in self.folders) + len(self.urls)
@@ -163,19 +175,26 @@ class BookmarkUrl(_BookmarkItem):
         return lines.join()
 
 
-def get_bookmarks_path() -> pathlib.Path:
+def get_bookmarks_path(profile: int = 0) -> pathlib.Path:
     """Returns the bookmark path."""
     if "linux" in sys.platform.lower():
-        path = "~/.config/google-chrome/Default/Bookmarks"
+        path = f"~/.config/google-chrome/"
     if "darwin" in sys.platform.lower():
-        path = "~/Library/Application Support/Google/Chrome/Default/Bookmarks"
+        path = f"~/Library/Application Support/Google/Chrome/"
     if "win32" in sys.platform.lower():
-        path = "~\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
-    path = pathlib.Path(path)
+        path = f"~\\AppData\\Local\\Google\\Chrome\\User Data\\"
+    path = pathlib.Path(path) / _profile_name(profile=profile) / "Bookmarks"
     path = path.expanduser()
     if not path.exists():
         raise ValueError(f"{path} not found.")
     return path
+
+
+def _profile_name(profile: int) -> str:
+    if profile == 0:
+        return "Default"
+    else:
+        return f"Profile {profile}"
 
 
 @functools.lru_cache(None)
@@ -189,11 +208,11 @@ def _bookmarks_roots(path: pathlib.Path) -> BookmarkRoots:
     )
 
 
-def bookmarks() -> BookmarkRoots:
-    path = get_bookmarks_path()
+def bookmarks(profile: int = 0) -> BookmarkRoots:
+    path = get_bookmarks_path(profile)
     return _bookmarks_roots(path)
 
 
-def bookmark_bar() -> BookmarkFolder:
+def bookmark_bar(profile: int = 0) -> BookmarkFolder:
     """Return the bookmark bar top-level folder."""
-    return bookmarks().bookmark_bar
+    return bookmarks(profile=profile).bookmark_bar

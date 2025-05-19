@@ -1,12 +1,14 @@
 """Chrome bookmarks utils."""
 
-from my_chrome_bookmarks.bookmarks import bookmarks
-from my_chrome_bookmarks.bookmarks import bookmark_bar
-from my_chrome_bookmarks.bookmarks import BookmarkUrl
-from my_chrome_bookmarks.bookmarks import BookmarkFolder
-from my_chrome_bookmarks.bookmarks import get_bookmarks_path
+from my_chrome_bookmarks.bookmarks import (
+    BookmarkFolder,
+    BookmarkUrl,
+    bookmark_bar,
+    bookmarks,
+    get_bookmarks_path,
+)
 
-__version__ = "1.0.2"
+__version__ = "1.2.0"
 
 __all__ = [
     "__version__",
